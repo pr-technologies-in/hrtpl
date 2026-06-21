@@ -4,7 +4,7 @@ pipeline {
     environment {
         SOLUTION = 'HeartRhythmTherapeuticSite.sln'
         PUBLISH_DIR = 'F:\\publish'
-        ZIP_FILE = 'HeartRhythmTherapeuticSite/obj/Release/Package/HeartRhythmTherapeuticSite.zip'
+        ZIP_FILE = 'HeartRhythmTherapeuticSite.zip'
         AZURE_WEBAPP = 'prtechnologies-a5abbmaxagbpg3br.centralindia-01'
         AZURE_RG = 'PayAsYouGo-RG'
         MSBUILD = '"D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\Bin\\MSBuild.exe"'
@@ -29,7 +29,7 @@ pipeline {
         stage('Package') {
             steps {
                 bat """
-                    powershell Compress-Archive -Path %PUBLISH_DIR%\\* -DestinationPath %ZIP_FILE% -Force
+                    powershell Compress-Archive -Path HeartRhythmTherapeuticSite\\* -DestinationPath %PUBLISH_DIR%\\%ZIP_FILE% -Force
                 """
                 archiveArtifacts artifacts: ZIP_FILE, fingerprint: true
             }
@@ -51,7 +51,7 @@ pipeline {
                         az webapp deploy ^
                           --resource-group %AZURE_RG% ^
                           --name %AZURE_WEBAPP% ^
-                          --src-path %ZIP_FILE% ^
+                          --src-path %PUBLISH_DIR%\\%ZIP_FILE% ^
                           --type zip
                     """
                 }
