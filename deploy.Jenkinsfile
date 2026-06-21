@@ -31,7 +31,7 @@ pipeline {
                 bat """
                     powershell Compress-Archive -Path HeartRhythmTherapeuticSite\\* -DestinationPath %PUBLISH_DIR%\\%ZIP_FILE% -Force
                 """
-                archiveArtifacts artifacts: ZIP_FILE, fingerprint: true
+                
             }
         }
 
