@@ -5,7 +5,7 @@ pipeline {
         SOLUTION = 'HeartRhythmTherapeuticSite.sln'
         CONFIGURATION = 'Release'
         PLATFORM = 'Any CPU'
-        MSBUILD = '"D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\Current\\Bin\\MSBuild.exe"'
+        MSBUILD = '"D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\Bin\\MSBuild.exe"'
         NUGET = '"C:\\Nuget\\nuget.exe"'
     }
 
