@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/HeartRhythmTherapeuticSite/bin
+/HeartRhythmTherapeuticSite/obj/Debug
+/HeartRhythmTherapeuticSite/obj/Release
+/HeartRhythmTherapeuticSite/.vs
