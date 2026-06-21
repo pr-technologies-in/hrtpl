@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         SOLUTION = 'HeartRhythmTherapeuticSite.sln'
-        PUBLISH_DIR = 'publish'
+        PUBLISH_DIR = 'F:\\publish'
         ZIP_FILE = 'HeartRhythmTherapeuticSite.zip'
         AZURE_WEBAPP = 'prtechnologies-a5abbmaxagbpg3br.centralindia-01'
         AZURE_RG = 'PayAsYouGo-RG'
