@@ -20,7 +20,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                bat '${NUGET} restore %SOLUTION%'
+                bat 'nuget restore %SOLUTION%'
                 bat """
                     ${MSBUILD} %SOLUTION% /p:Configuration=Release /p:DeployOnBuild=true /p:PublishUrl=%PUBLISH_DIR% /p:WebPublishMethod=FileSystem /p:DeleteExistingFiles=True /t:Rebuild /m
                 """
