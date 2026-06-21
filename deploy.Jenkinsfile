@@ -4,7 +4,7 @@ pipeline {
     environment {
         SOLUTION = 'HeartRhythmTherapeuticSite.sln'
         PUBLISH_DIR = 'F:\\publish'
-        ZIP_FILE = 'HeartRhythmTherapeuticSite.zip'
+        ZIP_FILE = 'HeartRhythmTherapeuticSite/obj/Release/Package/HeartRhythmTherapeuticSite.zip'
         AZURE_WEBAPP = 'prtechnologies-a5abbmaxagbpg3br.centralindia-01'
         AZURE_RG = 'PayAsYouGo-RG'
         MSBUILD = '"D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\Bin\\MSBuild.exe"'
