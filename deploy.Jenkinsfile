@@ -30,8 +30,7 @@ pipeline {
             steps {
             echo "packaging from : ${env.ZIP_FILE}"
                 bat """
-                    powershell Compress-Archive -Path %PUBLISH_DIR%\\* -DestinationPath %ZIP_FILE% -Force
-                    powershell Copy-Item -Path "%ZIP_FILE%" -Destination "%PUBLISH_DIR%\\"
+                    powershell Copy-Item -Path "//%ZIP_FILE%" -Destination "%PUBLISH_DIR%\\"
 
                 """
                 archiveArtifacts artifacts: ZIP_FILE, fingerprint: true
