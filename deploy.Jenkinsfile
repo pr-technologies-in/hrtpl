@@ -31,7 +31,7 @@ pipeline {
             steps {
             echo "packaging from %WORKSPACE%\\ ${env.ARTIFACT_ZIP}"
                 
-                archiveArtifacts artifacts: ZIP_FILE, fingerprint: true
+               
             }
         }
 
