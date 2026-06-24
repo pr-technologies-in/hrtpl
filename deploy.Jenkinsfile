@@ -14,12 +14,14 @@ pipeline {
 
     stages {
         stage('Checkout') {
+            echo "Checkout"
             steps {
                 checkout scm
             }
         }
          
         stage('Build') {
+              echo "MSBUILD"
             steps {
                 bat """
                     ${MSBUILD} %SOLUTION% /p:Configuration=Release /p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:PackageLocation="%WORKSPACE%\\%ARTIFACT_ZIP%"
@@ -27,6 +29,7 @@ pipeline {
             }
         }
         stage('Publish') {
+             echo "Publish"
             steps {
                 bat """
                 ${MSBUILD} HeartRhythmTherapeuticSite\\HeartRhythmTherapeuticSite.csproj /p:Configuration=Release /p:DeployOnBuild=true /p:WebPublishMethod=FileSystem /p:PublishUrl=publish /p:DeleteExistingFiles=True
@@ -34,6 +37,7 @@ pipeline {
             }
         }
         stage('Zip') {
+            echo "Zip"
             steps {
                 bat """
                     powershell Compress-Archive -Path publish\\* -DestinationPath deploy.zip -Force
@@ -41,6 +45,7 @@ pipeline {
             }
         }
         stage('Deploy') {
+             echo "Deploy"
             steps {
                 withCredentials([azureServicePrincipal(
                     credentialsId: 'azure-service-principal',
@@ -49,7 +54,7 @@ pipeline {
                     clientSecretVariable: 'AZURE_CLIENT_SECRET',
                     tenantIdVariable: 'AZURE_TENANT_ID'
                 )]) {
-                  echo "Deploying from : ${env.ZIP_FILE}"
+                  echo "Deploying from publish"
                     bat """
                         az login --service-principal -u %AZURE_CLIENT_ID% -p %AZURE_CLIENT_SECRET% --tenant %AZURE_TENANT_ID%
                         az account set --subscription %AZURE_SUBSCRIPTION_ID%
