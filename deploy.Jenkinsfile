@@ -4,7 +4,7 @@ pipeline {
     environment {
         SOLUTION = 'HeartRhythmTherapeuticSite.sln'
         PUBLISH_DIR = 'F:\\publish'
-        ZIP_FILE = 'HeartRhythmTherapeuticSite\\obj\\Release\\Package\\HeartRhythmTherapeuticSite.zip'
+        ZIP_FILE = 'E:\\Downloads\\Songs\\HRTPL_latest_Package_22nd_June.zip'
         AZURE_WEBAPP = 'prtechnologies'
         AZURE_RG = 'PayAsYouGo-RG'
         MSBUILD = '"D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\Bin\\MSBuild.exe"'
@@ -49,7 +49,7 @@ pipeline {
                         az login --service-principal -u %AZURE_CLIENT_ID% -p %AZURE_CLIENT_SECRET% --tenant %AZURE_TENANT_ID%
                         az account set --subscription %AZURE_SUBSCRIPTION_ID%
                       
-                        az webapp deploy --resource-group %AZURE_RG% --name %AZURE_WEBAPP% --src "E:\\Downloads\\Songs\\HRTPL_latest_Package_22nd_June.zip"
+                        az webapp deploy --resource-group %AZURE_RG% --name %AZURE_WEBAPP% --src-path %ZIP_FILE%
                     """
                 }
             }
