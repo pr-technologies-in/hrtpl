@@ -27,13 +27,6 @@ pipeline {
             }
         }
 
-        stage('Package') {
-            steps {
-            echo "packaging from %WORKSPACE%\\ ${env.ARTIFACT_ZIP}"
-                
-               
-            }
-        }
 
         stage('Deploy') {
             steps {
