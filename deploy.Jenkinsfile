@@ -29,10 +29,7 @@ pipeline {
         stage('Package') {
             steps {
             echo "packaging from : ${env.ZIP_FILE}"
-                bat """
-                    powershell Copy-Item -Path "\\%ZIP_FILE%" -Destination "%PUBLISH_DIR%\\"
-
-                """
+                
                 archiveArtifacts artifacts: ZIP_FILE, fingerprint: true
             }
         }
@@ -51,7 +48,7 @@ pipeline {
                         az login --service-principal -u %AZURE_CLIENT_ID% -p %AZURE_CLIENT_SECRET% --tenant %AZURE_TENANT_ID%
                         az account set --subscription %AZURE_SUBSCRIPTION_ID%
                       
-                        az webapp deploy --resource-group %AZURE_RG% --name %AZURE_WEBAPP% --src-path "%PUBLISH_DIR%\\HeartRhythmTherapeuticSite.zip --type zip
+                        az webapp deploy --resource-group %AZURE_RG% --name %AZURE_WEBAPP% --src-path "%ZIP_FILE%" --type zip
                     """
                 }
             }
