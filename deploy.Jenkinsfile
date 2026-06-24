@@ -48,11 +48,8 @@ pipeline {
                         az login --service-principal -u %AZURE_CLIENT_ID% -p %AZURE_CLIENT_SECRET% --tenant %AZURE_TENANT_ID%
                         az account set --subscription %AZURE_SUBSCRIPTION_ID%
 
-                        az webapp deploy ^
-                          --resource-group %AZURE_RG% ^
-                          --name %AZURE_WEBAPP% ^
-                          --src-path %PUBLISH_DIR%\\%ZIP_FILE% ^
-                          --type zip
+                        echo "Deploying from : ${env.ZIP_FILE}"
+                        az webapp deploy --resource-group %AZURE_RG% --name %AZURE_WEBAPP% --src-path %PUBLISH_DIR%\\%ZIP_FILE% --type zip
                     """
                 }
             }
