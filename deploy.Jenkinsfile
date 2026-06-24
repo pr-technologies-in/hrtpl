@@ -4,7 +4,7 @@ pipeline {
     environment {
         SOLUTION = 'HeartRhythmTherapeuticSite.sln'
         PUBLISH_DIR = 'F:\\publish'
-        ZIP_FILE = 'HeartRhythmTherapeuticSite.zip'
+        ZIP_FILE = 'HeartRhythmTherapeuticSite/obj/Release/Package/HeartRhythmTherapeuticSite.zip'
         AZURE_WEBAPP = 'prtechnologies-a5abbmaxagbpg3br.centralindia-01'
         AZURE_RG = 'PayAsYouGo-RG'
         MSBUILD = '"D:\\Program Files\\Microsoft Visual Studio\\2022\\Enterprise\\MSBuild\\Current\\Bin\\MSBuild.exe"'
@@ -28,10 +28,13 @@ pipeline {
 
         stage('Package') {
             steps {
+            echo "packaging from : ${env.ZIP_FILE}"
                 bat """
-                    powershell Compress-Archive -Path HeartRhythmTherapeuticSite\\* -DestinationPath %PUBLISH_DIR%\\%ZIP_FILE% -Force
+                    powershell Compress-Archive -Path %PUBLISH_DIR%\\* -DestinationPath %ZIP_FILE% -Force
+                    powershell Copy-Item -Path "ZIP_FILE" -Destination "%PUBLISH_DIR%\\"
+
                 """
-                
+                archiveArtifacts artifacts: ZIP_FILE, fingerprint: true
             }
         }
 
@@ -44,12 +47,12 @@ pipeline {
                     clientSecretVariable: 'AZURE_CLIENT_SECRET',
                     tenantIdVariable: 'AZURE_TENANT_ID'
                 )]) {
+                  echo "Deploying from : ${env.ZIP_FILE}"
                     bat """
                         az login --service-principal -u %AZURE_CLIENT_ID% -p %AZURE_CLIENT_SECRET% --tenant %AZURE_TENANT_ID%
                         az account set --subscription %AZURE_SUBSCRIPTION_ID%
-
-                        echo "Deploying from : ${env.ZIP_FILE}"
-                        az webapp deploy --resource-group %AZURE_RG% --name %AZURE_WEBAPP% --src-path %PUBLISH_DIR%\\%ZIP_FILE% --type zip
+                      
+                        az webapp deploy --resource-group %AZURE_RG% --name %AZURE_WEBAPP% --src-path "%PUBLISH_DIR%\\HeartRhythmTherapeuticSite.zip --type zip
                     """
                 }
             }
