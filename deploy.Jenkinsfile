@@ -18,7 +18,7 @@ pipeline {
                 checkout scm
             }
         }
-
+         
         stage('Build') {
             steps {
                 bat """
@@ -26,8 +26,20 @@ pipeline {
                 """
             }
         }
-
-
+        stage('Publish') {
+            steps {
+                bat """
+                ${MSBUILD} HeartRhythmTherapeuticSite\\HeartRhythmTherapeuticSite.csproj /p:Configuration=Release /p:DeployOnBuild=true /p:WebPublishMethod=FileSystem /p:PublishUrl=publish /p:DeleteExistingFiles=True
+                """
+            }
+        }
+        stage('Zip') {
+            steps {
+                bat """
+                    powershell Compress-Archive -Path publish\\* -DestinationPath deploy.zip -Force
+                """
+            }
+        }
         stage('Deploy') {
             steps {
                 withCredentials([azureServicePrincipal(
@@ -42,7 +54,7 @@ pipeline {
                         az login --service-principal -u %AZURE_CLIENT_ID% -p %AZURE_CLIENT_SECRET% --tenant %AZURE_TENANT_ID%
                         az account set --subscription %AZURE_SUBSCRIPTION_ID%
                       
-                        az webapp deploy --resource-group %AZURE_RG% --name %AZURE_WEBAPP% --src-path %WORKSPACE%\\HRTPL_latest_Package_22nd_June.zip
+                        az webapp deploy --resource-group %AZURE_RG% --name %AZURE_WEBAPP% --src-path deploy.zip --type zip
                     """
                 }
             }
