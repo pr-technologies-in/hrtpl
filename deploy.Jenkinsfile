@@ -58,7 +58,7 @@ pipeline {
 
     post {
         success {
-            echo "Deployed successfully to Azure App Service: ${env.AZURE_WEBAPP}"
+            echo "Deployed successfully to Azure App Service: ${env.AZURE_WEBAPP} from ${env.ZIP_FILE}"
         }
         failure {
             echo 'Deployment failed'
